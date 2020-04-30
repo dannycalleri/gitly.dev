@@ -1,0 +1,30 @@
+{
+  "name": "rank",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node ./dist/app.js",
+    "watch:ts": "tsc --watch",
+    "watch": "nodemon ./dist/app.js | pino-pretty"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ioredis": "^4.16.3",
+    "moment": "^2.24.0",
+    "node-fetch": "^2.6.0",
+    "pino": "^6.2.1"
+  },
+  "devDependencies": {
+    "@types/ioredis": "^4.16.0",
+    "@types/node-fetch": "^2.5.7",
+    "@types/pino": "^6.0.0",
+    "nodemon": "^2.0.3",
+    "pino-pretty": "^4.0.0",
+    "typescript": "^3.8.3"
+  }
+}
