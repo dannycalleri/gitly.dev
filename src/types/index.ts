@@ -1,5 +1,9 @@
 export enum Channels {
   STARS = "stars",
+  PULL_REQUESTS = "pull_requests",
+  COMMITS = "commits",
+  DOCUMENTATION = "documentation",
+  ISSUES = "issues",
 }
 
 export enum Category {

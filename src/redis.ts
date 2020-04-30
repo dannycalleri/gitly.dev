@@ -29,6 +29,10 @@ async function init() {
 
   initialized = true;
   await subscribe(Channels.STARS);
+  await subscribe(Channels.PULL_REQUESTS);
+  await subscribe(Channels.COMMITS);
+  await subscribe(Channels.DOCUMENTATION);
+  await subscribe(Channels.ISSUES);
 }
 
 function unsubscribe (channel: Channels) {
@@ -60,6 +64,10 @@ async function publish(channel: Channels, message: Message) {
 
 async function cleanup() {
   await unsubscribe(Channels.STARS);
+  await unsubscribe(Channels.PULL_REQUESTS);
+  await unsubscribe(Channels.COMMITS);
+  await unsubscribe(Channels.DOCUMENTATION);
+  await unsubscribe(Channels.ISSUES);
   messageCallbacks.clear();
 }
 

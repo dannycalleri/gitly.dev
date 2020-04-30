@@ -12,7 +12,7 @@ import * as commits from './criterias/commits';
   await redis.init();
 
   // const repository = 'ture+typescript+algorithm';
-  const repository = 'react';
+  const repository = 'facebook+react';
   // const repository = 'grommet';
   // const repository = 'semantic-ui';
   // const repository = 'jquery';

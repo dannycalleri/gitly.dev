@@ -1,5 +1,4 @@
 import { createRequest } from "../createRequest";
-import {logger} from '../logger';
 import {
   Channels,
   Message,
