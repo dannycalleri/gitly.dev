@@ -26,25 +26,25 @@ async function fetchData(repository: any): Promise<PullRequestsData> {
   };
 }
 
-async function sendData({open, closed}: PullRequestsData) {
+async function sendData(uniqueId: string, {open, closed}: PullRequestsData) {
   return new Promise(async (resolve, reject) => {
     await publish(Channels.PULL_REQUESTS, {
-      Id: '1337',
+      Id: uniqueId,
       Payload: {
         OpenCount: open,
         ClosedCount: closed,
       },
       Mode: Category.RAW_DATA,
     });
-    registerCallback('1337', Channels.PULL_REQUESTS, async (data: Message) => {
+    registerCallback(uniqueId, Channels.PULL_REQUESTS, async (data: Message) => {
       resolve(data.Payload);
     });
   });
 }
 
-async function calculate(data: PullRequestsData) {
-  const processedData: any = await sendData(data);
-  unregisterCallback('1337', Channels.PULL_REQUESTS);
+async function calculate(uniqueId: string, data: PullRequestsData) {
+  const processedData: any = await sendData(uniqueId, data);
+  unregisterCallback(uniqueId, Channels.PULL_REQUESTS);
   return processedData;
 }
 

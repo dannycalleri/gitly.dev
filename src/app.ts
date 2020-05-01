@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+import { v4 as uuidv4 } from 'uuid';
+
 import {logger} from './logger';
 import * as redis from './redis';
 import * as stars from './criterias/stars';
@@ -11,8 +13,14 @@ import * as commits from './criterias/commits';
 (async () => {
   await redis.init();
 
+  const repositories = [
+    'ture+typescript+algorithm',
+    'facebook+react',
+    'semantic-ui',
+  ];
+  const repository = repositories[Math.floor(Math.random()*repositories.length)];
   // const repository = 'ture+typescript+algorithm';
-  const repository = 'facebook+react';
+  // const repository = 'facebook+react';
   // const repository = 'grommet';
   // const repository = 'semantic-ui';
   // const repository = 'jquery';
@@ -21,15 +29,17 @@ import * as commits from './criterias/commits';
   // const repository = 'kubernetes';
   // const repository = 'vscode';
 
+  const requestId = uuidv4();
+
   const data = await stars.fetchData(repository);
-  const starsRating = await stars.calculate(data);
+  const starsRating = await stars.calculate(requestId, data);
   logger.info(`stars rating = ${starsRating}`);
 
   const selectedRepository = data.items[0];
 
   logger.info(`repository name = ${selectedRepository.full_name}`);
   const prData = await pullRequests.fetchData(selectedRepository);
-  const prRating = await pullRequests.calculate(prData);
+  const prRating = await pullRequests.calculate(requestId, prData);
   logger.info(`pull requests rating = ${prRating}`);
 
   const issuesData = await issues.fetchData(selectedRepository);

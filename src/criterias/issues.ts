@@ -1,5 +1,18 @@
 import { createRequest } from "../createRequest";
 
+interface Comment {
+  id: number;
+  authorAssociation: string;
+}
+
+interface Issue {
+  id: number;
+  number: number;
+  title: string;
+  comments: number;
+  commentsList: Comment[];
+}
+
 function *issuesComments(ownerName: string, repoName: string, issues: any) {
   for(let i = 0; i < issues.length; i++) {
     const issue = issues[i];
@@ -11,29 +24,36 @@ async function fetchData(repository: any) {
   const repoName = repository.name;
   const ownerName = repository.owner.login;
   const openIssues = await createRequest(`/search/issues?q=+state:open+type:issue+repo:${ownerName}/${repoName}`);
-  const commentsList = [];
-
+  const issuesList: Issue[] = [];
+  
+  let issueIndex = 0;
   const iterator = issuesComments(ownerName, repoName, openIssues.items);
   let current = iterator.next();
   while (!current.done) {
-    const comments = await current.value;
-    commentsList.push(comments);
+    const commentsList = await current.value;
+    const {id, number, title, comments} = openIssues.items[issueIndex++];
+    const issue: Issue = {
+      id,
+      number,
+      title,
+      comments,
+      commentsList,
+    };
+    issuesList.push(issue);
     current = iterator.next();
   }
 
-  return {
-    openIssues,
-    commentsList,
-  };
+  return issuesList;
 }
 
-function calculate({ openIssues, commentsList }: {openIssues: any, commentsList: any}) {
-  if (openIssues.items.length === 0) {
+function calculate(issuesList: Issue[]) {
+  if (issuesList.length === 0) {
     return 0;
   }
 
   let answeredByTeam = 0;
-  commentsList.forEach((comments: any) => {
+  issuesList.forEach((issue: Issue) => {
+    const comments = issue.commentsList;
     const anyAnswerByTeam = comments.filter((comment: any) => (
       comment.author_association === 'COLLABORATOR' ||
       comment.author_association === 'CONTRIBUTOR' ||
@@ -46,7 +66,7 @@ function calculate({ openIssues, commentsList }: {openIssues: any, commentsList:
     }
   });
 
-  return answeredByTeam / openIssues.items.length;
+  return answeredByTeam / issuesList.length;
 }
 
 export {
