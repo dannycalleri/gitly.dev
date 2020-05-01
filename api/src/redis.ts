@@ -1,8 +1,10 @@
 import Redis from 'ioredis';
 import {logger} from './logger';
 import {Channels, Message, Category} from './types';
-const redis = new Redis(6379, "localhost");
-const pub = new Redis(6379, "localhost");
+
+const host = process.env.APP_ENV === "prod" ? "redis" : "localhost";
+const redis = new Redis(6379, host);
+const pub = new Redis(6379, host);
 
 let initialized = false;
 const messageCallbacks: Map<string, Function> = new Map();

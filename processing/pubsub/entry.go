@@ -10,7 +10,7 @@ import (
 var lock = &sync.Mutex{}
 var rdb *redis.Client
 
-func Init() {
+func Init(host string) {
 	lock.Lock()
 	defer lock.Unlock()
 
@@ -19,9 +19,9 @@ func Init() {
 	}
 
 	rdb = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379", // use default Addr
-		Password: "",               // no password set
-		DB:       0,                // use default DB
+		Addr:     host + ":6379", // use default Addr
+		Password: "",             // no password set
+		DB:       0,              // use default DB
 	})
 
 	pong, err := rdb.Ping().Result()

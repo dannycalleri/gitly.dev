@@ -9,12 +9,14 @@ import {
   registerCallback,
   unregisterCallback,
 } from '../redis';
+import { logger } from "../logger";
 
 async function fetchData(repository: any) {
   return await createRequest(`/search/repositories?q=${repository}`);
 }
 
 function sendData(uniqueId: string, data: any) {
+  logger.info(data);
   const selected = data.items[0];
   const stars = selected.stargazers_count;
   return new Promise(async (resolve, reject) => {

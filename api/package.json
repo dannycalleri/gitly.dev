@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node ./dist/app.js",
+    "build": "tsc",
     "watch:ts": "tsc --watch",
     "watch": "nodemon ./dist/app.js | pino-pretty"
   },
