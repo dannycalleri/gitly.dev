@@ -4,63 +4,41 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/go-redis/redis"
+	"github.com/dannycalleri/rank/messages"
+	"github.com/dannycalleri/rank/pubsub"
 )
 
-type StarsPayload struct {
-	Stars float64
-}
-
-type StarMessage struct {
-	Payload StarsPayload
-	Mode    string
-	Id      string
-}
-
-func Init(rdb *redis.Client, clientChannel chan string) {
-	pubsub := rdb.Subscribe("stars:raw_data")
-	defer pubsub.Close()
-
-	// Wait for confirmation that subscription is created before publishing anything.
-	_, pubsubErr := pubsub.Receive()
-	if pubsubErr != nil {
-		panic(pubsubErr)
+func calculate(stars float64) float64 {
+	starsBenchmark := float64(5000)
+	starsRate := stars / starsBenchmark
+	var rating float64
+	if starsRate > 1 {
+		rating = 1
+	} else {
+		rating = starsRate
 	}
+	return rating
+}
 
-	ch := pubsub.Channel()
+func Init(clientChannel chan string) {
+	ch, pub := pubsub.SubscribeTo("stars:raw_data")
+	defer pub.Close()
 
 	// Consume messages.
 	for msg := range ch {
 		fmt.Println(msg.Channel, msg.Payload)
 
-		fmt.Println("proviamo a vedere se ci sta")
-
-		var starMessage StarMessage
-		b := []byte(msg.Payload)
-		json.Unmarshal(b, &starMessage)
-		// if err != nil {
-		fmt.Println(starMessage)
-		// }
-
+		starMessage := messages.NewStarMessageFromJson(msg.Payload)
 		if starMessage.Mode != "raw_data" {
 			continue
 		}
 
-		starsBenchmark := float64(5000)
-		starsRate := starMessage.Payload.Stars / starsBenchmark
-		var rating float64
-		if starsRate > 1 {
-			rating = 1
-		} else {
-			rating = starsRate
-		}
-
+		rating := calculate(starMessage.Payload.Stars)
 		fmt.Println(rating)
 
-		m := StarMessage{StarsPayload{rating}, "complete_data", starMessage.Id}
+		m := messages.StarMessage{messages.StarsPayload{rating}, "complete_data", starMessage.Id}
 		if buffer, err := json.Marshal(m); err == nil {
-			// Publish a message.
-			err = rdb.Publish("stars:complete_data", buffer).Err()
+			err := pubsub.PublishTo("stars:complete_data", buffer)
 			if err != nil {
 				panic(err)
 			}

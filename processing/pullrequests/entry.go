@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/dannycalleri/rank/messages"
-	"github.com/go-redis/redis"
+	"github.com/dannycalleri/rank/pubsub"
 )
 
 func calculate(data messages.PullRequestsData) float64 {
@@ -22,16 +22,9 @@ func calculate(data messages.PullRequestsData) float64 {
 	return rating
 }
 
-func Init(rdb *redis.Client, clientChannel chan string) {
-	pubsub := rdb.Subscribe("pull_requests:raw_data")
-	defer pubsub.Close()
-
-	_, pubsubErr := pubsub.Receive()
-	if pubsubErr != nil {
-		panic(pubsubErr)
-	}
-
-	ch := pubsub.Channel()
+func Init(clientChannel chan string) {
+	ch, pub := pubsub.SubscribeTo("pull_requests:raw_data")
+	defer pub.Close()
 
 	// Consume messages.
 	for msg := range ch {
@@ -48,7 +41,7 @@ func Init(rdb *redis.Client, clientChannel chan string) {
 		m := messages.ResultMessage{rating, "complete_data", message.Id}
 		if buffer, err := json.Marshal(m); err == nil {
 			// Publish a message.
-			err = rdb.Publish("pull_requests:complete_data", buffer).Err()
+			err = pubsub.PublishTo("pull_requests:complete_data", buffer)
 			if err != nil {
 				panic(err)
 			}

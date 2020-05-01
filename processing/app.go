@@ -3,24 +3,17 @@ package main
 import (
 	"fmt"
 
+	"github.com/dannycalleri/rank/pubsub"
 	"github.com/dannycalleri/rank/pullrequests"
 	"github.com/dannycalleri/rank/stars"
-	"github.com/go-redis/redis"
 )
 
 func main() {
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379", // use default Addr
-		Password: "",               // no password set
-		DB:       0,                // use default DB
-	})
-
-	pong, err := rdb.Ping().Result()
-	fmt.Println(pong, err)
+	pubsub.Init()
 
 	ch := make(chan string)
-	go stars.Init(rdb, ch)
-	go pullrequests.Init(rdb, ch)
+	go stars.Init(ch)
+	go pullrequests.Init(ch)
 
 	for msg := range ch {
 		fmt.Println(msg)

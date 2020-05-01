@@ -11,6 +11,7 @@ type ResultMessage struct {
 	Id      string
 }
 
+// pull requests
 type PullRequestsData struct {
 	OpenCount   int
 	ClosedCount int
@@ -22,14 +23,37 @@ type PRMessage struct {
 	Id      string
 }
 
+// stars
+type StarsPayload struct {
+	Stars float64
+}
+
+type StarMessage struct {
+	Payload StarsPayload
+	Mode    string
+	Id      string
+}
+
 func NewPRMessageFromJson(payload string) PRMessage {
 	var message PRMessage
 	b := []byte(payload)
 	err := json.Unmarshal(b, &message)
-	if err == nil {
-		fmt.Println(message)
-		panic(message)
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
 	}
 
 	return message
+}
+
+func NewStarMessageFromJson(payload string) StarMessage {
+	var starMessage StarMessage
+	b := []byte(payload)
+	err := json.Unmarshal(b, &starMessage)
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
+
+	return starMessage
 }
