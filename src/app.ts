@@ -14,9 +14,11 @@ import * as commits from './criterias/commits';
   await redis.init();
 
   const repositories = [
-    'ture+typescript+algorithm',
-    'facebook+react',
-    'semantic-ui',
+    'vscode',
+    'kubernetes'
+    // 'ture+typescript+algorithm',
+    // 'facebook+react',
+    // 'semantic-ui',
   ];
   const repository = repositories[Math.floor(Math.random()*repositories.length)];
   // const repository = 'ture+typescript+algorithm';
@@ -43,7 +45,7 @@ import * as commits from './criterias/commits';
   logger.info(`pull requests rating = ${prRating}`);
 
   const issuesData = await issues.fetchData(selectedRepository);
-  const issuesRating = await issues.calculate(issuesData);
+  const issuesRating = await issues.calculate(requestId, issuesData);
   logger.info(`open issues rating = ${issuesRating}`);
 
   // this shouldn't be used

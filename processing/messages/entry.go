@@ -34,6 +34,30 @@ type StarMessage struct {
 	Id      string
 }
 
+// issues
+type Comment struct {
+	Id                uint
+	AuthorAssociation string
+}
+
+type Issue struct {
+	Id           uint
+	Number       uint
+	Title        string
+	Comments     uint
+	CommentsList []Comment
+}
+
+type IssuesPayload struct {
+	Issues []Issue
+}
+
+type IssuesMessage struct {
+	Payload IssuesPayload
+	Mode    string
+	Id      string
+}
+
 func NewPRMessageFromJson(payload string) PRMessage {
 	var message PRMessage
 	b := []byte(payload)
@@ -56,4 +80,16 @@ func NewStarMessageFromJson(payload string) StarMessage {
 	}
 
 	return starMessage
+}
+
+func NewIssuesMessageFromJson(payload string) IssuesMessage {
+	var message IssuesMessage
+	b := []byte(payload)
+	err := json.Unmarshal(b, &message)
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
+
+	return message
 }

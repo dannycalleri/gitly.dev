@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/dannycalleri/rank/issues"
 	"github.com/dannycalleri/rank/pubsub"
 	"github.com/dannycalleri/rank/pullrequests"
 	"github.com/dannycalleri/rank/stars"
@@ -14,6 +15,7 @@ func main() {
 	ch := make(chan string)
 	go stars.Init(ch)
 	go pullrequests.Init(ch)
+	go issues.Init(ch)
 
 	for msg := range ch {
 		fmt.Println(msg)

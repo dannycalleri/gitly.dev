@@ -1,4 +1,14 @@
 import { createRequest } from "../createRequest";
+import {
+  Channels,
+  Message,
+  Category,
+} from '../types';
+import {
+  publish,
+  registerCallback,
+  unregisterCallback,
+} from '../redis';
 
 interface Comment {
   id: number;
@@ -37,7 +47,10 @@ async function fetchData(repository: any) {
       number,
       title,
       comments,
-      commentsList,
+      commentsList: commentsList.map((c: any) => ({
+        id: c.id,
+        authorAssociation: c.author_association,
+      })),
     };
     issuesList.push(issue);
     current = iterator.next();
@@ -46,27 +59,25 @@ async function fetchData(repository: any) {
   return issuesList;
 }
 
-function calculate(issuesList: Issue[]) {
-  if (issuesList.length === 0) {
-    return 0;
-  }
-
-  let answeredByTeam = 0;
-  issuesList.forEach((issue: Issue) => {
-    const comments = issue.commentsList;
-    const anyAnswerByTeam = comments.filter((comment: any) => (
-      comment.author_association === 'COLLABORATOR' ||
-      comment.author_association === 'CONTRIBUTOR' ||
-      comment.author_association === 'MEMBER' ||
-      comment.author_association === 'OWNER'
-    )).length > 0;
-
-    if(anyAnswerByTeam) {
-      answeredByTeam++;
-    }
+async function sendData(uniqueId: string, issuesList: Issue[]) {
+  return new Promise(async (resolve, reject) => {
+    await publish(Channels.ISSUES, {
+      Id: uniqueId,
+      Payload: {
+        Issues: issuesList
+      },
+      Mode: Category.RAW_DATA,
+    });
+    registerCallback(uniqueId, Channels.ISSUES, async (data: Message) => {
+      resolve(data.Payload);
+    });
   });
+}
 
-  return answeredByTeam / issuesList.length;
+async function calculate(uniqueId: string, issuesList: Issue[]) {
+  const processedData: any = await sendData(uniqueId, issuesList);
+  unregisterCallback(uniqueId, Channels.ISSUES);
+  return processedData;
 }
 
 export {
