@@ -21,7 +21,7 @@ async function fetchData(repository: any) {
   };
 }
 
-function calculate({ pages, wiki, redirected }: {pages: any, wiki: any, redirected: boolean}) {
+async function calculate({ pages, wiki, redirected }: {pages: any, wiki: any, redirected: boolean}): Promise<number> {
   let score = 0;
   if (pages.hasPages && pages.status !== 'null') {
     score += 0.5;
@@ -31,7 +31,7 @@ function calculate({ pages, wiki, redirected }: {pages: any, wiki: any, redirect
     score += 0.5;
   }
 
-  return score;
+  return Promise.resolve(score);
 }
 
 export {

@@ -1,8 +1,8 @@
-import { createRequest } from "../createRequest";
 import {
   Channels,
   Message,
   Category,
+  Repository,
 } from '../types';
 import {
   publish,
@@ -11,13 +11,8 @@ import {
 } from '../redis';
 import { logger } from "../logger";
 
-async function fetchData(repository: any) {
-  return await createRequest(`/search/repositories?q=${repository}`);
-}
-
-function sendData(uniqueId: string, data: any) {
-  logger.info(data);
-  const selected = data.items[0];
+function sendData(uniqueId: string, selected: Repository) {
+  logger.info(selected.name);
   const stars = selected.stargazers_count;
   return new Promise(async (resolve, reject) => {
     await publish(Channels.STARS, {
@@ -40,6 +35,5 @@ async function calculate(uniqueId: string, data: any) {
 }
 
 export {
-  fetchData,
   calculate,
 };

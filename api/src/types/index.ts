@@ -16,3 +16,10 @@ export interface Message {
   Payload: any;
   Mode: Category;
 }
+
+export interface Repository {
+  id: number;
+  name: string;
+  full_name: string;
+  stargazers_count: number;
+}

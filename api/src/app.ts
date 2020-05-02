@@ -1,82 +1,40 @@
 require('dotenv').config();
 
-import { v4 as uuidv4 } from 'uuid';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import pino from 'pino-http';
 
-import {logger} from './logger';
 import * as redis from './redis';
-import * as stars from './criterias/stars';
-import * as pullRequests from './criterias/pullRequests';
-import * as issues from './criterias/issues';
-import * as documentation from './criterias/documentation';
-import * as commits from './criterias/commits';
+import {logger} from './logger';
+import { RestError, handleError } from './errors';
+import analysis from './rest/analysis';
+import repositories from './rest/repositories';
+
+const app = express();
+const port = process.env.PORT || 8080;
+
+app.use(pino({
+  logger,
+}));
+app.use(bodyParser.json());
+app.use(cors());
 
 (async () => {
+  logger.info("starting redis...");
   await redis.init();
+  logger.info("redis started!");
 
-  const repositories = [
-    'vscode',
-    'kubernetes'
-    // 'ture+typescript+algorithm',
-    // 'facebook+react',
-    // 'semantic-ui',
-  ];
-  const repository = repositories[Math.floor(Math.random()*repositories.length)];
-  // const repository = 'ture+typescript+algorithm';
-  // const repository = 'facebook+react';
-  // const repository = 'grommet';
-  // const repository = 'semantic-ui';
-  // const repository = 'jquery';
-  // const repository = 'styled-components';
-  // const repository = 'apache+spark';
-  // const repository = 'kubernetes';
-  // const repository = 'vscode';
-
-  const requestId = uuidv4();
-
-  const data = await stars.fetchData(repository);
-  const starsRating = await stars.calculate(requestId, data);
-  logger.info(`stars rating = ${starsRating}`);
-
-  const selectedRepository = data.items[0];
-
-  logger.info(`repository name = ${selectedRepository.full_name}`);
-  const prData = await pullRequests.fetchData(selectedRepository);
-  const prRating = await pullRequests.calculate(requestId, prData);
-  logger.info(`pull requests rating = ${prRating}`);
-
-  const issuesData = await issues.fetchData(selectedRepository);
-  const issuesRating = await issues.calculate(requestId, issuesData);
-  logger.info(`open issues rating = ${issuesRating}`);
-
-  // this shouldn't be used
-  const documentationData = await documentation.fetchData(selectedRepository);
-  const documentationRating = await documentation.calculate(documentationData);
-  logger.info(`documentation rating  = ${documentationRating}`);
-
-  let commitsRating = 0;
-  try {
-    const commitsData = await commits.fetchData(selectedRepository);
-    commitsRating = await commits.calculate(commitsData);
-  } catch(err) {
-    console.error('not able to calculate commits rating');
-  }
+  app.use('/analysis', analysis);
+  app.use('/repositories', repositories);
+  app.use((err: RestError, req: any, res: any, next: any) => {
+    handleError(err, res);
+  });
   
-  logger.info(`commits rating = ${commitsRating}`);
-
-  await redis.cleanup();
-
-  const weights = {
-    stars: 0.1,
-    pullRequests: 0.2,
-    issues: 0.3,
-    commits: 0.2,
-    documentation: 0.2,
-  };
-
-  const score = weights.stars * starsRating +
-    weights.pullRequests * prRating +
-    weights.issues * issuesRating +
-    weights.commits * commitsRating +
-    weights.documentation * documentationRating;
-  logger.info(`final score = ${score}`);
+  app.listen(port);
+  logger.info(`server now ready to accept connections on ${port}!`);
 })();
+
+process.on('exit', async function() {
+  await redis.cleanup();
+});

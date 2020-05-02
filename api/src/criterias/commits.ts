@@ -55,7 +55,7 @@ async function fetchData(repository: any) {
   return commits;
 }
 
-function calculate(commits: any) {
+async function calculate(commits: any): Promise<number> {
   const biggerHistogram = buildHistogram(commits, 90);
   const smallerHistogram = buildHistogram(commits, 30);
   const daysWithLessThanOneCommit = Object.values(biggerHistogram).filter(value => value < 1).length;
