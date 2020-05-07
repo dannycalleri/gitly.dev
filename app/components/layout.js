@@ -2,29 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCodeBranch,
-  faLongArrowAltRight,
-} from "@fortawesome/free-solid-svg-icons";
-
-import Search from "../components/search";
-
-const Heading = styled.h2`
-  color: #fff;
-
-  .heading__container {
-    display: inline-block;
-    // transform: rotate(-1deg);
-    background-color: #000;
-    padding: 10px 20px;
-    border-radius: 5px;
-  }
-
-  .heading__text {
-    display: inline-block;
-    // transform: rotate(1deg);
-  }
-`;
+import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   max-width: 800px;
@@ -53,13 +31,6 @@ const Logo = styled.span`
 `;
 
 const LogoIcon = styled(FontAwesomeIcon)``;
-
-const Anchor = styled.a`
-  display: flex;
-  text-decoration: none;
-  color: #000;
-  line-height: 1em;
-`;
 
 const StyledNavigation = styled.ul`
   display: flex;
