@@ -69,7 +69,7 @@ export default function withLayout(Content) {
             <title>gitly.dev</title>
             <link rel="icon" href="/favicon.ico" />
             <link
-              href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@900&display=swap"
+              href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@900&family=Source+Code+Pro&display=swap"
               rel="stylesheet"
             />
           </Head>
@@ -77,7 +77,7 @@ export default function withLayout(Content) {
           <main>
             <header>
               <LogoContainer>
-                <a href="#">
+                <a href="/">
                   <Logo>
                     <LogoIcon icon={faCodeBranch} width={24} />
                   </Logo>
