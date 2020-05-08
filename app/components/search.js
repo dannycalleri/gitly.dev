@@ -47,6 +47,13 @@ const StyledList = styled.ul`
     border: 1px solid black;
     color: #000;
     box-shadow: 4px 4px 0 #222;
+
+    &:hover {
+      position: relative;
+      top: 2px;
+      left: 2px;
+      box-shadow: 2px 2px 0 #222;
+    }
   }
 
   .name {
