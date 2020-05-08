@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
 
 import Analysis from "../components/analysis";
 import Search from "../components/search";
 import withLayout from "../components/layout";
+import HowItWorks from "../components/howItWorks";
 
 const Container = styled.div`
   position: relative;
@@ -37,13 +36,6 @@ const Heading = styled.h2`
   }
 `;
 
-const Anchor = styled.a`
-  display: flex;
-  text-decoration: none;
-  color: #000;
-  line-height: 1em;
-`;
-
 function Home() {
   const [selectedRepository, setSelectedRepository] = useState(undefined);
   const [searchQuery, setSearchQuery] = useState("");
@@ -61,16 +53,7 @@ function Home() {
       />
 
       <Container active={selectedRepository === undefined}>
-        <Link href="/how-it-works">
-          <Anchor href="#">
-            How it works
-            <FontAwesomeIcon
-              icon={faLongArrowAltRight}
-              width={16}
-              style={{ marginLeft: "5px" }}
-            />
-          </Anchor>
-        </Link>
+        <HowItWorks />
         <Heading>
           <span className="heading__container">
             <span className="heading__text">

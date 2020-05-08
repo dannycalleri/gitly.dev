@@ -128,6 +128,11 @@ export default function withLayout(Content) {
               margin: auto;
               padding: 5vw;
             }
+
+            p {
+              padding: 0;
+              margin: 0;
+            }
           `}</style>
         </>
       );
