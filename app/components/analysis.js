@@ -7,7 +7,8 @@ import Results from "./results";
 
 const Log = styled.div`
   font-family: "Source Code Pro", monospace;
-  background-color: #333;
+  border-radius: 5px;
+  background-color: black;
   color: #fff;
   padding: 20px;
   overflow-wrap: ${(props) => (props.isLoading ? "break-word" : "normal")};

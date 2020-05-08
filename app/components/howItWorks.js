@@ -16,14 +16,15 @@ const StyledAnchor = styled.a`
 `;
 
 const Box = styled.div`
-  background-color: black;
-  color: white;
+  border-radius: 5px;
+  background-color: #ffe676;
+  color: black;
   transition: max-height 0.2s ease-out;
   max-height: ${(props) => (props.active ? "200px" : "0")};
   overflow: hidden;
 
   div {
-    padding: 3vw;
+    padding: 20px;
   }
 `;
 
