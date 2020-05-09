@@ -20,7 +20,7 @@ const Box = styled.div`
   background-color: #ffe676;
   color: black;
   transition: max-height 0.2s ease-out;
-  max-height: ${(props) => (props.active ? "200px" : "0")};
+  max-height: ${(props) => (props.active ? "500px" : "0")};
   overflow: hidden;
 
   div {
@@ -30,14 +30,25 @@ const Box = styled.div`
 
 export function paragraph() {
   return (
-    <p>
-      Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-      Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-      Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-      Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-      Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-      Lorem ipsum Lorem ipsum Lorem ipsum
-    </p>
+    <>
+      <h3>Why?</h3>
+      <p>
+        Have you ever been{" "}
+        <strong>
+          wondering if a particular library or repository is active enough to
+          support it
+        </strong>{" "}
+        and make it a dependency to rely on? We do! And this project gives you a
+        first hint whether the repository at hand is good for you.
+      </p>
+      <h3>What?</h3>
+      <p>
+        We use <strong>GitHub APIs</strong> to collect public data about a
+        repository and attach a score to it. The collected data includes the
+        number of stars, documentation, the last few hundreds of commits, issues
+        and pull requests.
+      </p>
+    </>
   );
 }
 
@@ -51,7 +62,7 @@ export default function howItWorks(props) {
     <>
       <div style={{ marginBottom: "10px" }}>
         <StyledAnchor onClick={toggle} active={active}>
-          How it works
+          What? How it works?
           <span className="icon">
             <FontAwesomeIcon
               icon={faLongArrowAltRight}

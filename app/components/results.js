@@ -65,10 +65,10 @@ export default function Results(props) {
   return (
     <>
       <ScoreList>
-        {pairs.map((pair) => {
+        {pairs.map((pair, index) => {
           const conf = configurationByScoreName[pair[0]];
           return (
-            <li>
+            <li key={`${pair[0]}${index}`}>
               <span className="label">
                 {iconFactory(16, conf.icon)}
                 {conf.label}:
