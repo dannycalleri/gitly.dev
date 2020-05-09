@@ -4,16 +4,9 @@ import styled from "styled-components";
 import { useInterval } from "./useInterval";
 import * as API from "../api";
 import Results from "./results";
-
-const Log = styled.div`
-  font-family: "Source Code Pro", monospace;
-  border-radius: 5px;
-  background-color: black;
-  color: #fff;
-  padding: 20px;
-  overflow-wrap: ${(props) => (props.isLoading ? "break-word" : "normal")};
-  margin-bottom: 25px;
-`;
+import Whaaat from "./whaaat";
+import { Log } from "./log";
+import { analysisParagraph } from "./paragraphs";
 
 const Button = styled.button`
   cursor: pointer;
@@ -45,6 +38,11 @@ export default function Analysis(props) {
         const data = await API.analyze(repository.id, repository.full_name);
         setDelay(null);
         setResults(data);
+        window.history.pushState(
+          {},
+          `Score for ${repository.full_name}`,
+          `/score/${encodeURIComponent(repository.full_name)}`
+        );
       }
     })();
   }, [repository]);
@@ -68,6 +66,7 @@ export default function Analysis(props) {
         </Log>
       ) : (
         <>
+          <Whaaat label="Whaaat?" paragraph={analysisParagraph} />
           <Log isLoading={isLoading}>
             <Results data={results} />
           </Log>

@@ -18,6 +18,7 @@ const ScoreList = styled.ul`
   li {
     line-height: 2em;
     display: flex;
+    align-items: center;
 
     .label {
       flex: 1;

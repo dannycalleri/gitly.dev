@@ -4,6 +4,22 @@ function createRequest(url) {
   return fetch(url);
 }
 
+export async function getAnalysis(id) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log(`fetching analysis for id ${id}`);
+      resolve({
+        score: 1,
+        starsRating: 0.5,
+        prRating: 0.3,
+        issuesRating: 0.2,
+        commitsRating: 0.5,
+        documentationRating: 0.2,
+      });
+    }, 1000);
+  });
+}
+
 export async function analyze(id, query) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
