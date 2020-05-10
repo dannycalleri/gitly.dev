@@ -29,20 +29,32 @@ export default function Analysis(props) {
   const [loadingString, setLoadingString] = useState("");
   const [delay, setDelay] = useState(null);
   const [results, setResults] = useState({});
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     (async () => {
       if (repository !== undefined) {
         setDelay(300);
         console.log(repository);
-        const data = await API.analyze(repository.id, repository.full_name);
-        setDelay(null);
-        setResults(data);
-        window.history.pushState(
-          {},
-          `Score for ${repository.full_name}`,
-          `/score/${encodeURIComponent(repository.full_name)}`
-        );
+
+        let data = undefined;
+        try {
+          data = await API.analyze(repository.id, repository.full_name);
+          setResults(data);
+          window.history.pushState(
+            {},
+            `Score for ${repository.full_name}`,
+            `/score/${encodeURIComponent(repository.id)}`
+          );
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setDelay(null);
+        }
+
+        if (!data) {
+          setError(true);
+        }
       }
     })();
   }, [repository]);
@@ -52,8 +64,26 @@ export default function Analysis(props) {
     setLoadingString(str);
   }, delay);
 
+  function handleReset() {
+    setError(false);
+    reset();
+  }
+
   if (repository === undefined) {
     return null;
+  }
+
+  if (error) {
+    return (
+      <>
+        <h1>{repository.full_name}</h1>
+        <div>
+          <p>This repository doesn't have enough data to analyze :(</p>
+          <p>Please try with another one.</p>
+        </div>
+        <Button onClick={() => handleReset()}>Reset</Button>
+      </>
+    );
   }
 
   const isLoading = delay !== null;
@@ -66,7 +96,11 @@ export default function Analysis(props) {
         </Log>
       ) : (
         <>
-          <Whaaat label="Whaaat?" paragraph={analysisParagraph} />
+          <Whaaat
+            label="Whaaat?"
+            title="How it works"
+            paragraph={analysisParagraph}
+          />
           <Log isLoading={isLoading}>
             <Results data={results} />
           </Log>

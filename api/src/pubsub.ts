@@ -1,9 +1,9 @@
 import Redis from "ioredis";
 import { logger } from "./logger";
 import { Channels, Message, Category } from "./types";
-import redis from "./redis";
 
 const host = process.env.APP_ENV === "prod" ? "redis" : "localhost";
+const redis = new Redis(6379, host);
 const pub = new Redis(6379, host);
 
 let initialized = false;

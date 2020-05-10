@@ -10,6 +10,7 @@ import { logger } from "./logger";
 import { RestError, handleError } from "./errors";
 import analysis from "./rest/analysis";
 import repositories from "./rest/repositories";
+import scores from "./rest/scores";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -29,6 +30,7 @@ app.use(cors());
 
   app.use("/analysis", analysis);
   app.use("/repositories", repositories);
+  app.use("/scores", scores);
   app.use((err: RestError, req: any, res: any, next: any) => {
     handleError(err, res);
   });

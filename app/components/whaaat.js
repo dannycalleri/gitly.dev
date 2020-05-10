@@ -16,20 +16,18 @@ const StyledAnchor = styled.a`
 `;
 
 const Box = styled.div`
+  transition: max-height 0.2s ease-out, padding 0.3s ease-out;
+  padding: ${(props) => (props.active ? "20px" : "0")};
+  padding-top: 0;
   border-radius: 5px;
   background-color: #ffe676;
   color: black;
-  transition: max-height 0.2s ease-out;
-  max-height: ${(props) => (props.active ? "500px" : "0")};
+  max-height: ${(props) => (props.active ? "1200px" : "0")};
   overflow: hidden;
-
-  div {
-    padding: 20px;
-  }
 `;
 
 export default function whaaat(props) {
-  const { paragraph, color, label } = props;
+  const { paragraph, color, label, title } = props;
   const [active, setActive] = useState(false);
   function toggle() {
     setActive(!active);
@@ -37,7 +35,9 @@ export default function whaaat(props) {
 
   return (
     <>
-      <div style={{ marginBottom: props.active ? "10px" : "0" }}>
+      <div
+        style={{ display: "flex", marginBottom: props.active ? "10px" : "0" }}
+      >
         <StyledAnchor onClick={toggle} active={active} color={color}>
           {label}
           <span className="icon">
@@ -50,6 +50,7 @@ export default function whaaat(props) {
         </StyledAnchor>
       </div>
       <Box active={active}>
+        <h3>{title}</h3>
         <div>{paragraph()}</div>
       </Box>
     </>

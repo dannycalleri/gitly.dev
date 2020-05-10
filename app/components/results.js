@@ -9,6 +9,7 @@ import {
   faBurn,
   faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
+import * as d3 from "d3-format";
 
 const ScoreList = styled.ul`
   margin: 0;
@@ -32,7 +33,7 @@ const ScoreList = styled.ul`
 
 export default function Results(props) {
   const { data } = props;
-  const { score, ...otherScores } = data;
+  const { score, name, ...otherScores } = data;
   const configurationByScoreName = {
     starsRating: {
       icon: faStar,
@@ -74,13 +75,13 @@ export default function Results(props) {
                 {iconFactory(16, conf.icon)}
                 {conf.label}:
               </span>
-              <span className="score">{pair[1]}</span>
+              <span className="score">{d3.format(".2%")(pair[1])}</span>
             </li>
           );
         })}
         <li style={{ fontWeight: "bold", fontSize: "2em" }}>
           <span className="label">{iconFactory(16, faBurn)}Score:</span>
-          <span className="score">{score}</span>
+          <span className="score">{d3.format(".2%")(score)}</span>
         </li>
       </ScoreList>
     </>

@@ -5,7 +5,8 @@ import styled from "styled-components";
 import Analysis from "../components/analysis";
 import Search from "../components/search";
 import withLayout from "../components/layout";
-import HowItWorks from "../components/howItWorks";
+import Whaaat from "../components/whaaat";
+import { mainPageParagraph } from "../components/paragraphs";
 
 const Container = styled.div`
   position: relative;
@@ -41,7 +42,6 @@ function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   function reset() {
     setSelectedRepository(undefined);
-    setSearchQuery("");
     window.history.pushState({}, `gitly.dev`, `/`);
   }
 
@@ -54,7 +54,11 @@ function Home() {
       />
 
       <Container active={selectedRepository === undefined}>
-        <HowItWorks />
+        <Whaaat
+          label="What? How it works?"
+          title="Why?"
+          paragraph={mainPageParagraph}
+        />
         <Heading>
           <span className="heading__container">
             <span className="heading__text">

@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
 
 const StyledAnchor = styled.a`
-  display: flex;
   cursor: pointer;
   text-decoration: none;
   color: #000;
@@ -14,12 +13,14 @@ export default function Anchor(props) {
   const { href, label, ...others } = props;
   return (
     <StyledAnchor href={href} {...others}>
-      {label}
-      <FontAwesomeIcon
-        icon={faLongArrowAltRight}
-        width={16}
-        style={{ marginLeft: "5px" }}
-      />
+      <span>
+        {label}
+        <FontAwesomeIcon
+          icon={faLongArrowAltRight}
+          width={16}
+          style={{ marginLeft: "5px" }}
+        />
+      </span>
     </StyledAnchor>
   );
 }

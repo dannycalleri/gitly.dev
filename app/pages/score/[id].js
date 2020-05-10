@@ -6,11 +6,25 @@ import Whaaat from "../../components/whaaat";
 import * as API from "../../api";
 
 function Score(props) {
-  const { id, scoreData } = props;
+  const { id, scoreData, error } = props;
+
+  if (error) {
+    return (
+      <>
+        <p>Data not found for id {id}</p>
+      </>
+    );
+  }
+
+  const { name } = scoreData;
   return (
     <>
-      <h1>{id}</h1>
-      <Whaaat label="Whaaat?" paragraph={analysisParagraph} />
+      <h1>{name}</h1>
+      <Whaaat
+        label="Whaaat?"
+        title="How it works"
+        paragraph={analysisParagraph}
+      />
       <Log isLoading={false}>
         <Results data={scoreData} />
       </Log>
@@ -23,6 +37,7 @@ Score.getInitialProps = async (context) => {
   let scoreData;
   try {
     id = context.query.id;
+    console.log(`looking for data relative to ${id}`);
     scoreData = await API.getAnalysis(id);
   } catch (err) {
     console.log("Error while fetching score");

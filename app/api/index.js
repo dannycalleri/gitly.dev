@@ -7,19 +7,14 @@ function createRequest(url) {
 }
 
 export async function getAnalysis(id) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log(`fetching analysis for id ${id}`);
-      resolve({
-        score: 1,
-        starsRating: 0.5,
-        prRating: 0.3,
-        issuesRating: 0.2,
-        commitsRating: 0.5,
-        documentationRating: 0.2,
-      });
-    }, 1000);
-  });
+  const request = await createRequest(`/scores/${id}`);
+
+  if (request.status === 200) {
+    return await request.json();
+  }
+
+  const error = await request.json();
+  throw error;
 }
 
 export async function analyze(id, query) {

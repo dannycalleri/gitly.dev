@@ -77,6 +77,7 @@ const List = (props) => {
   const { repositories } = props;
 
   function onSelectRepository(repository) {
+    window.scrollTo(0, 0);
     setSelectedRepository(repository);
   }
 
@@ -107,7 +108,7 @@ export default (props) => {
     repository: useState({}),
     ...props.state,
   };
-  const [repositories, setRepositories] = useState([]);
+  const [repositories, setRepositories] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [loadingString, setLoadingString] = useState("");
   const [delay, setDelay] = useState(null);
@@ -133,6 +134,11 @@ export default (props) => {
         setLoading(false);
         setDelay(null);
         setLoadingString("");
+      } else {
+        setLoading(false);
+        setDelay(null);
+        setLoadingString("");
+        setRepositories(undefined);
       }
     })();
   }, [searchQuery]);
@@ -142,7 +148,7 @@ export default (props) => {
       <SearchFieldContainer>
         <SearchField
           type="text"
-          placeholder="Search..."
+          placeholder="Type the name of the repository"
           name="search_repo"
           autocomplete="off"
           onChange={inputChanged}
@@ -150,20 +156,20 @@ export default (props) => {
         <SearchIcon icon={faSearch} width="16" />
       </SearchFieldContainer>
 
-      {loading ? <p styled={{ marginTop: "30px" }}>{loadingString}</p> : ""}
+      {loading ? (
+        <p>{loadingString}</p>
+      ) : searchQuery.length > 0 &&
+        repositories &&
+        repositories.length === 0 ? (
+        <p>No results found. Try with another search term.</p>
+      ) : null}
 
-      {!loading && searchQuery.length > 0 && repositories.length > 0 ? (
+      {!loading && repositories && repositories.length > 0 ? (
         <List
           state={{ repository: [selectedRepository, setSelectedRepository] }}
           repositories={repositories}
         />
-      ) : undefined}
-
-      {!loading && searchQuery.length > 0 && repositories.length === 0 ? (
-        <p style={{ marginTop: "30px" }}>
-          No results found. Try with another search term.
-        </p>
-      ) : undefined}
+      ) : null}
     </>
   );
 };
