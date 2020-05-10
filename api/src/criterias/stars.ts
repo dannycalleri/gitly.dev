@@ -1,14 +1,5 @@
-import {
-  Channels,
-  Message,
-  Category,
-  Repository,
-} from '../types';
-import {
-  publish,
-  registerCallback,
-  unregisterCallback,
-} from '../redis';
+import { Channels, Message, Category, Repository } from "../types";
+import { publish, registerCallback, unregisterCallback } from "../pubsub";
 import { logger } from "../logger";
 
 function sendData(uniqueId: string, selected: Repository) {
@@ -18,7 +9,7 @@ function sendData(uniqueId: string, selected: Repository) {
     await publish(Channels.STARS, {
       Id: uniqueId,
       Payload: {
-        stars
+        stars,
       },
       Mode: Category.RAW_DATA,
     });
@@ -34,6 +25,4 @@ async function calculate(uniqueId: string, data: any) {
   return processedData.Stars;
 }
 
-export {
-  calculate,
-};
+export { calculate };

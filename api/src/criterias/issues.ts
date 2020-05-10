@@ -1,14 +1,6 @@
 import { createRequest } from "../createRequest";
-import {
-  Channels,
-  Message,
-  Category,
-} from '../types';
-import {
-  publish,
-  registerCallback,
-  unregisterCallback,
-} from '../redis';
+import { Channels, Message, Category } from "../types";
+import { publish, registerCallback, unregisterCallback } from "../pubsub";
 
 interface Comment {
   id: number;
@@ -23,25 +15,29 @@ interface Issue {
   commentsList: Comment[];
 }
 
-function *issuesComments(ownerName: string, repoName: string, issues: any) {
-  for(let i = 0; i < issues.length; i++) {
+function* issuesComments(ownerName: string, repoName: string, issues: any) {
+  for (let i = 0; i < issues.length; i++) {
     const issue = issues[i];
-    yield createRequest(`/repos/${ownerName}/${repoName}/issues/${issue.number}/comments`);
+    yield createRequest(
+      `/repos/${ownerName}/${repoName}/issues/${issue.number}/comments`
+    );
   }
 }
 
 async function fetchData(repository: any) {
   const repoName = repository.name;
   const ownerName = repository.owner.login;
-  const openIssues = await createRequest(`/search/issues?q=+state:open+type:issue+repo:${ownerName}/${repoName}`);
+  const openIssues = await createRequest(
+    `/search/issues?q=+state:open+type:issue+repo:${ownerName}/${repoName}`
+  );
   const issuesList: Issue[] = [];
-  
+
   let issueIndex = 0;
   const iterator = issuesComments(ownerName, repoName, openIssues.items);
   let current = iterator.next();
   while (!current.done) {
     const commentsList = await current.value;
-    const {id, number, title, comments} = openIssues.items[issueIndex++];
+    const { id, number, title, comments } = openIssues.items[issueIndex++];
     const issue: Issue = {
       id,
       number,
@@ -64,7 +60,7 @@ async function sendData(uniqueId: string, issuesList: Issue[]) {
     await publish(Channels.ISSUES, {
       Id: uniqueId,
       Payload: {
-        Issues: issuesList
+        Issues: issuesList,
       },
       Mode: Category.RAW_DATA,
     });
@@ -80,7 +76,4 @@ async function calculate(uniqueId: string, issuesList: Issue[]) {
   return processedData;
 }
 
-export {
-  fetchData,
-  calculate,
-};
+export { fetchData, calculate };
