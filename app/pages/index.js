@@ -42,6 +42,7 @@ function Home() {
   function reset() {
     setSelectedRepository(undefined);
     setSearchQuery("");
+    window.history.pushState({}, `gitly.dev`, `/`);
   }
 
   return (

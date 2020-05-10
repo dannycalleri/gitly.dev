@@ -6,6 +6,7 @@ import { faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
 import * as d3 from "d3-format";
 
 import * as API from "../api";
+import { useInterval } from "./useInterval";
 
 const SearchFieldContainer = styled.div`
   position: relative;
@@ -107,6 +108,13 @@ export default (props) => {
     ...props.state,
   };
   const [repositories, setRepositories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingString, setLoadingString] = useState("");
+  const [delay, setDelay] = useState(null);
+
+  useInterval(() => {
+    setLoadingString(loadingString + ".");
+  }, delay);
 
   const inputChanged = (e) => {
     const value = e.target.value;
@@ -117,8 +125,15 @@ export default (props) => {
 
   useEffect(() => {
     (async () => {
-      const repos = await API.search(searchQuery);
-      setRepositories(repos);
+      if (searchQuery.length > 0) {
+        setLoading(true);
+        setDelay(300);
+        const repos = await API.search(searchQuery);
+        setRepositories(repos);
+        setLoading(false);
+        setDelay(null);
+        setLoadingString("");
+      }
     })();
   }, [searchQuery]);
 
@@ -134,11 +149,20 @@ export default (props) => {
         />
         <SearchIcon icon={faSearch} width="16" />
       </SearchFieldContainer>
-      {searchQuery.length > 0 && repositories.length > 0 ? (
+
+      {loading ? <p styled={{ marginTop: "30px" }}>{loadingString}</p> : ""}
+
+      {!loading && searchQuery.length > 0 && repositories.length > 0 ? (
         <List
           state={{ repository: [selectedRepository, setSelectedRepository] }}
           repositories={repositories}
         />
+      ) : undefined}
+
+      {!loading && searchQuery.length > 0 && repositories.length === 0 ? (
+        <p style={{ marginTop: "30px" }}>
+          No results found. Try with another search term.
+        </p>
       ) : undefined}
     </>
   );
