@@ -52,7 +52,7 @@ export function mainPageParagraph() {
         and make it a dependency to rely on? We do! And this project gives you a
         first hint whether the repository at hand is good for you.
       </p>
-      <h3>What?</h3>
+      <h3>How it works?</h3>
       <p>
         We use <strong>GitHub APIs</strong> to collect public data about a
         repository and attach a score to it. The collected data includes the

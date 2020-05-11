@@ -17,17 +17,28 @@ const ScoreList = styled.ul`
   list-style: none;
 
   li {
+    padding: 0 10px;
     line-height: 2em;
     display: flex;
     align-items: center;
 
     .label {
+      display: flex;
       flex: 1;
     }
 
     .score {
-      flex: 2;
+      flex: 0;
     }
+
+    &:nth-child(odd) {
+      background-color: white;
+      color: black;
+    }
+  }
+
+  @media (max-width: 500px) {
+    font-size: 0.75em;
   }
 `;
 

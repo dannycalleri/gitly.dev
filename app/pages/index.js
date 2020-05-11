@@ -56,7 +56,7 @@ function Home() {
       <Container active={selectedRepository === undefined}>
         <Whaaat
           label="What? How it works?"
-          title="Why?"
+          title="What?"
           paragraph={mainPageParagraph}
         />
         <Heading>
