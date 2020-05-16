@@ -62,7 +62,7 @@ function Home() {
         <Heading>
           <span className="heading__container">
             <span className="heading__text">
-              Get the score of a GitHub repository.
+              Get the quality score of a GitHub repository.
             </span>
           </span>
         </Heading>
