@@ -1,4 +1,4 @@
-version: '3.1'
+version: "3.1"
 services:
   redis:
     image: redis
@@ -6,10 +6,23 @@ services:
     build: ./processing
     environment:
       - APP_ENV=prod
-  node:
+    depends_on:
+      - redis
+  api:
     build: ./api
     environment:
       - APP_ENV=prod
     depends_on:
       - redis
       - processing
+    ports:
+      - "8080:8080"
+  app:
+    build:
+      context: "./app"
+      args:
+        apibase: http://localhost:8080
+    depends_on:
+      - api
+    ports:
+      - "80:3000"

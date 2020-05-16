@@ -1,6 +1,7 @@
 import fetch from "isomorphic-unfetch";
 
-const baseUrl = "http://localhost:8080";
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+console.log(`API BASE URL = ${baseUrl}`);
 
 function createRequest(url) {
   return fetch(`${baseUrl}${url}`);

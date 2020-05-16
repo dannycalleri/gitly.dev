@@ -2,25 +2,17 @@ export function analysisParagraph() {
   return (
     <>
       <p>
-        Please read our analysis critically, because a low score doesn't
-        necessarily means that a project sucks, it means that the activity on
-        GitHub isn't as good as it could be. That could mean low quality but
-        also that the algorithm wasn't able to take into account other
-        parameters.
-      </p>
-      <p>
-        <strong>Stars:</strong> High score on stars means being well above our
+        <strong>Stars:</strong> High score on stars means being above our
         benchmark (500 stars).
       </p>
       <p>
         <strong>Pull requests:</strong> High score on pull requests means that
-        there are <strong>more closed and merged PRs than opened ones</strong>{" "}
-        starving.
+        there are <strong>more closed and merged PRs than opened ones</strong>.
       </p>
       <p>
         <strong>Issues:</strong> High score means that active members of the
-        repository, being them contributors or team members answer them
-        frequently! It means that the <strong>community is very active</strong>.
+        repository comment issues frequently! It means that the{" "}
+        <strong>community is very active</strong>.
       </p>
       <p>
         <strong>Commits:</strong> High score means that{" "}
@@ -28,13 +20,20 @@ export function analysisParagraph() {
       </p>
       <p>
         <strong>Documentation:</strong> High score means that we found both
-        <strong>active pages and wiki</strong>. We don't quality, only if they
-        are active or not.
+        <strong>active GitHub pages and wiki</strong>. We don't check writing
+        quality - at the moment ;)
       </p>
       <p>
         <strong>Final score:</strong> Sum of the previous scores with different
-        weights. High score means the repository in question is pretty good, you
-        should consider adopting it.
+        weights. High score means the repository in question rocks! Please adopt
+        it!
+      </p>
+      <p>
+        <strong>Please</strong> read our analysis critically, because a low
+        score doesn't necessarily mean that a project sucks, it means that the
+        activity on GitHub isn't so good. That could mean low quality, but
+        remember that the algorithm doesn't take a limited amount of variables
+        into account.
       </p>
     </>
   );
