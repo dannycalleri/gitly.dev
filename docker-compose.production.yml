@@ -1,0 +1,28 @@
+version: "3.1"
+services:
+  redis:
+    image: redis
+  processing:
+    build: ./processing
+    environment:
+      - APP_ENV=prod
+    depends_on:
+      - redis
+  api:
+    build: ./api
+    environment:
+      - APP_ENV=prod
+    depends_on:
+      - redis
+      - processing
+    ports:
+      - "8080:8080"
+  app:
+    build:
+      context: "./app"
+      args:
+        apibase: https://gitly.dev:8080
+    depends_on:
+      - api
+    ports:
+      - "80:3000"
