@@ -1,8 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 
 import GitlyLogo from "./logo";
 import * as Tracking from "./tracking";
