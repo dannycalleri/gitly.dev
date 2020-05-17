@@ -8,7 +8,7 @@ import (
 	"github.com/dannycalleri/rank/pubsub"
 )
 
-func calculate(stars float64) float64 {
+func Calculate(stars float64) float64 {
 	starsBenchmark := float64(5000)
 	starsRate := stars / starsBenchmark
 	var rating float64
@@ -33,7 +33,7 @@ func Init(clientChannel chan string) {
 			continue
 		}
 
-		rating := calculate(starMessage.Payload.Stars)
+		rating := Calculate(starMessage.Payload.Stars)
 		fmt.Println(rating)
 
 		m := messages.StarMessage{messages.StarsPayload{rating}, "complete_data", starMessage.Id}

@@ -8,7 +8,8 @@ import (
 	"github.com/dannycalleri/rank/pubsub"
 )
 
-func calculate(data messages.IssuesPayload) float64 {
+// Calculate calculates the score relative to Issues
+func Calculate(data messages.IssuesPayload) float64 {
 	issuesList := data.Issues
 	if len(issuesList) == 0 {
 		return 0
@@ -36,6 +37,7 @@ func calculate(data messages.IssuesPayload) float64 {
 	return float64(answeredByTeam) / float64(len(issuesList))
 }
 
+// Init must be called before using any other function of the package
 func Init(clientChannel chan string) {
 	ch, pub := pubsub.SubscribeTo("issues:raw_data")
 	defer pub.Close()
@@ -49,7 +51,7 @@ func Init(clientChannel chan string) {
 			continue
 		}
 
-		var rating float64 = calculate(message.Payload)
+		var rating float64 = Calculate(message.Payload)
 		fmt.Println(rating)
 
 		m := messages.ResultMessage{Payload: rating, Mode: "complete_data", Id: message.Id}
