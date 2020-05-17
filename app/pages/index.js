@@ -7,6 +7,7 @@ import Search from "../components/search";
 import withLayout from "../components/layout";
 import Whaaat from "../components/whaaat";
 import { mainPageParagraph } from "../components/paragraphs";
+import * as Tracking from "../components/tracking";
 
 const Container = styled.div`
   position: relative;
@@ -43,6 +44,7 @@ function Home() {
   function reset() {
     setSelectedRepository(undefined);
     window.history.pushState({}, `gitly.dev`, `/`);
+    Tracking.recordPageView();
   }
 
   return (

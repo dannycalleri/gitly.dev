@@ -7,6 +7,7 @@ import Results from "./results";
 import Whaaat from "./whaaat";
 import { Log } from "./log";
 import { analysisParagraph } from "./paragraphs";
+import * as Tracking from "./tracking";
 
 const Button = styled.button`
   cursor: pointer;
@@ -46,6 +47,7 @@ export default function Analysis(props) {
             `Score for ${repository.full_name}`,
             `/score/${encodeURIComponent(repository.id)}`
           );
+          Tracking.recordPageView();
         } catch (err) {
           console.error(err);
         } finally {

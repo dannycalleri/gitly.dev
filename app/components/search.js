@@ -7,6 +7,7 @@ import * as d3 from "d3-format";
 
 import * as API from "../api";
 import { useInterval } from "./useInterval";
+import * as Tracking from "./tracking";
 
 const SearchFieldContainer = styled.div`
   position: relative;
@@ -79,6 +80,7 @@ const List = (props) => {
   function onSelectRepository(repository) {
     window.scrollTo(0, 0);
     setSelectedRepository(repository);
+    Tracking.recordEvent("User", "Click on repository", repository.full_name);
   }
 
   return (

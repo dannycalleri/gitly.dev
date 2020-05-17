@@ -3,6 +3,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
+import * as Tracking from "./tracking";
 
 const Container = styled.div`
   max-width: 800px;
@@ -59,6 +60,11 @@ export default function withLayout(Content) {
       const pageProps = await (Content.getInitialProps &&
         Content.getInitialProps(ctx));
       return { ...pageProps };
+    }
+
+    componentDidMount() {
+      Tracking.initialize();
+      Tracking.recordPageView();
     }
 
     render() {
