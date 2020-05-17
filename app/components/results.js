@@ -17,14 +17,17 @@ const ScoreList = styled.ul`
   list-style: none;
 
   li {
-    padding: 0 10px;
-    line-height: 2em;
+    padding: 10px;
     display: flex;
     align-items: center;
 
     .label {
-      display: flex;
       flex: 1;
+
+      .text,
+      .icon svg {
+        vertical-align: middle;
+      }
     }
 
     .score {
@@ -83,15 +86,18 @@ export default function Results(props) {
           return (
             <li key={`${pair[0]}${index}`}>
               <span className="label">
-                {iconFactory(16, conf.icon)}
-                {conf.label}:
+                <span className="icon">{iconFactory(16, conf.icon)}</span>
+                <span className="text">{conf.label}:</span>
               </span>
               <span className="score">{d3.format(".2%")(pair[1])}</span>
             </li>
           );
         })}
         <li style={{ fontWeight: "bold", fontSize: "2em" }}>
-          <span className="label">{iconFactory(16, faBurn)}Score:</span>
+          <span className="label">
+            <span className="icon">{iconFactory(16, faBurn)}</span>
+            <span className="text">Score:</span>
+          </span>
           <span className="score">{d3.format(".2%")(score)}</span>
         </li>
       </ScoreList>
