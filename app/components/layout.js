@@ -3,6 +3,8 @@ import Link from "next/link";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
+
+import GitlyLogo from "./logo";
 import * as Tracking from "./tracking";
 
 const Container = styled.div`
@@ -17,21 +19,23 @@ const LogoContainer = styled.h1`
   color: #000;
   margin: 0;
 
+  a {
+    display: inline-block;
+  }
+
   a:hover {
     text-decoration: none;
   }
 `;
 
 const Logo = styled.span`
-  display: inline-block;
-  background-color: #ffe676;
-  padding: 5px 12px;
-  color: #fff;
-  line-height: 1em;
   margin-right: 10px;
-`;
 
-const LogoIcon = styled(FontAwesomeIcon)``;
+  svg {
+    width: 60px;
+    vertical-align: middle;
+  }
+`;
 
 const StyledNavigation = styled.ul`
   display: flex;
@@ -119,7 +123,7 @@ export default function withLayout(Content) {
               <LogoContainer>
                 <a href="/">
                   <Logo>
-                    <LogoIcon icon={faCodeBranch} width={24} />
+                    <GitlyLogo />
                   </Logo>
                   gitly.dev
                 </a>
