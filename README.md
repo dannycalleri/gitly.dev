@@ -23,7 +23,7 @@ When the web application sends a request to calculate the score for a particular
 - Processing daemon: calculates the score inside a goroutine and publishes it inside the channel
 - APIs: return the result to the client
 
-I hope to publish a (sequence diagram)[https://en.wikipedia.org/wiki/Sequence_diagram] soon.
+I hope to publish a [sequence diagram](https://en.wikipedia.org/wiki/Sequence_diagram) soon.
 
 ### How to get better
 
