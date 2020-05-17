@@ -1,8 +1,8 @@
 # gitly.dev
 
-gitly.dev is a web application that takes in input the name of a GitHub repository and outputs a score that tells how active a GitHub repository is. I often found myself doing this sort of checks manually, thus I thought it would have been nice to automatize the whole process.
+**gitly.dev** is a web application that **takes in input the name of a GitHub repository** and **outputs a score that tells how active a GitHub repository is**. I often found myself doing this sort of checks manually, thus I thought it would have been nice to automatize the whole process.
 
-This is a project written for fun in TypeScript, Go and plain JavaScript with React for the front-end.
+This is a project written for fun in **TypeScript, Go and plain JavaScript** with React for the front-end.
 
 Since it has been written for fun, **over-engineering was the rule**.
 
