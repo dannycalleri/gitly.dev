@@ -1,4 +1,4 @@
-# gitly.dev
+# [gitly.dev](https://gitly.dev)
 
 **gitly.dev** is a web application that **takes in input the name of a GitHub repository** and **outputs a score that tells how active a GitHub repository is**. I often found myself doing this sort of checks manually, thus I thought it would have been nice to automatize the whole process.
 
@@ -23,7 +23,7 @@ When the web application sends a request to calculate the score for a particular
 - Processing daemon: calculates the score inside a goroutine and publishes it inside the channel
 - APIs: return the result to the client
 
-I hope to publish a (sequence diagram)[https://en.wikipedia.org/wiki/Sequence_diagram] soon.
+I hope to publish a [sequence diagram](https://en.wikipedia.org/wiki/Sequence_diagram) soon.
 
 ### How to get better
 
