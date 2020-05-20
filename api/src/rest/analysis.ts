@@ -90,10 +90,10 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
     const weights = {
       stars: 0.1,
-      pullRequests: 0.2,
+      pullRequests: 0.3,
       issues: 0.3,
       commits: 0.2,
-      documentation: 0.2,
+      documentation: 0.1,
     };
 
     const score =
