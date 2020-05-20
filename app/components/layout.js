@@ -24,6 +24,17 @@ const LogoContainer = styled.h1`
   a:hover {
     text-decoration: none;
   }
+
+  sup {
+    font-family: "Open Sans";
+    font-weight: 400;
+    font-size: small;
+    margin-left: 5px;
+  }
+
+  @media (max-width: 600px) {
+    flex: 2;
+  }
 `;
 
 const Logo = styled.span`
@@ -32,6 +43,12 @@ const Logo = styled.span`
   svg {
     width: 60px;
     vertical-align: middle;
+  }
+
+  @media (max-width: 600px) {
+    svg {
+      width: 40px;
+    }
   }
 `;
 
@@ -124,6 +141,7 @@ export default function withLayout(Content) {
                     <GitlyLogo />
                   </Logo>
                   gitly.dev
+                  <sup>(beta)</sup>
                 </a>
               </LogoContainer>
               <Navigation />
@@ -193,6 +211,11 @@ export default function withLayout(Content) {
               }
             }
             @media (max-width: 500px) {
+              header {
+                margin-top: 30px;
+                font-size: 0.85em;
+              }
+
               .github-corner:hover .octo-arm {
                 animation: none;
               }
