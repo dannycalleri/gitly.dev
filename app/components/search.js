@@ -22,13 +22,13 @@ const SearchIcon = styled(FontAwesomeIcon)`
 `;
 
 const SearchField = styled.input`
-  // border-radius: 3px;
   outline: none;
   border: 2px solid #000;
   box-shadow: 4px 4px 0 #222;
   width: 100%;
   height: 40px;
   padding-left: 5px;
+  font-size: 1em;
 
   &:focus {
     box-shadow: 0 0 1px 5px #fff25c;
