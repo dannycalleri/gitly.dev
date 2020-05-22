@@ -34,3 +34,7 @@ Right now, as you can see in `docker-compose.production.yml` each node has its o
 ## How to help
 
 Open an issue, sends pull requests, you're free to contribute.
+
+## Support
+
+<a href="https://www.buymeacoffee.com/dannyc" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-black.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
