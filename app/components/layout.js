@@ -3,12 +3,9 @@ import Link from "next/link";
 import styled from "styled-components";
 
 import GitlyLogo from "./logo";
+import Footer from "./footer";
 import * as Tracking from "./tracking";
-
-const Container = styled.div`
-  max-width: 800px;
-  padding: 0vw 5vw;
-`;
+import { Container } from "./Container";
 
 const LogoContainer = styled.h1`
   display: flex;
@@ -149,9 +146,8 @@ export default function withLayout(Content) {
             <Container>
               <Content {...props} />
             </Container>
+            <Footer />
           </main>
-
-          <footer></footer>
 
           <style jsx global>{`
             html,

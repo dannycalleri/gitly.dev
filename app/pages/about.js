@@ -6,7 +6,11 @@ function About() {
   return (
     <>
       <p>
-        This is an open source project brought to you by{" "}
+        This is an{" "}
+        <a href="https://github.com/dannycalleri/gitly.dev">
+          open source project
+        </a>{" "}
+        brought to you by{" "}
         <a href="https://github.com/dannycalleri/">Danny Calleri</a>.
       </p>
     </>
