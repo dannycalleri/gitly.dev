@@ -19,21 +19,21 @@ export function analysisParagraph() {
         <strong>commits are equally distributed over time</strong>.
       </p>
       <p>
-        <strong>Documentation:</strong> High score means that we found both
+        <strong>Documentation:</strong> High score means that we found both{" "}
         <strong>active GitHub pages and wiki</strong>. We don't check writing
         quality - at the moment ;)
       </p>
       <p>
         <strong>Final score:</strong> Sum of the previous scores with different
-        weights. High score means the repository in question rocks! Please adopt
-        it!
+        weights.{" "}
+        <strong>High score means the repository in question rocks!</strong>{" "}
+        Please adopt it!
       </p>
       <p>
-        <strong>Please</strong> read our analysis critically, because a low
+        Please <strong>read our analysis critically</strong>, because a low
         score doesn't necessarily mean that a project sucks, it means that the
-        activity on GitHub isn't so good. That could mean low quality, but
-        remember that the algorithm doesn't take a limited amount of variables
-        into account.
+        activity on GitHub isn't so good. Remember that the algorithm takes a
+        limited amount of variables into account.
       </p>
     </>
   );
